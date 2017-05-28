@@ -1,0 +1,233 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	overflow-y: hidden;
+	background: #161513;
+	height: 100vh;
+	display: flex;
+	justify-content: space-around;
+}
+
+.medic {
+	background: #24201b;
+	flex-basis: 100px;
+	padding: 10px;
+	display: flex;
+	flex-shrink: 1;
+	flex-direction: column;
+	justify-content: flex-end;
+	--pop-time: 8s;
+	--blink-time: 0.5s;
+	--pop-blink-time: 0.75s;
+	--extra-build: 0;
+}
+
+.medic.secondary-medigun {
+	--build-time: 40s;
+	--secondary-name: "Medi Gun";
+	--secondary-img: url(external/tf2/images/medigun.png);
+}
+
+.medic.secondary-kritzkrieg {
+	--build-time: 32s;
+	--secondary-name: "Kritzkrieg";
+	--secondary-img: url(external/tf2/images/kritzkrieg.png);
+}
+
+.medic.secondary-quickfix {
+	--build-time: 32s;
+	--secondary-name: "Quick-Fix";
+	--secondary-img: url(external/tf2/images/quickfix.png);
+}
+
+.medic.secondary-vaccinator {
+	--build-time: 24s;
+	--secondary-name: "Vaccinator";
+	--secondary-img: url(external/tf2/images/vaccinator.png);
+}
+
+.medic .secondary {
+	background-image: var(--secondary-img);
+}
+
+.medic .charge {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-family: sans-serif;
+	text-shadow: 0 0 4px black;
+	font-weight: bold;
+	font-size: 1.5em;
+	flex-grow: 1;
+	position: relative;
+	--not-filled: #8cd88c;
+	--filled-blink: #004c00;
+	--filled: green;
+	background: var(--not-filled);
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.build-percentage {
+	z-index: 1;
+}
+
+@keyframes build {
+	from {
+		top: 100%;
+	}
+	to {
+		top: 0%;
+	}
+}
+
+@keyframes blink {
+	from {
+		background-color: var(--filled);
+	}
+
+	to {
+		background-color: var(--filled-blink);
+	}
+}
+
+/* Have to be duplicated so the previous animation doesn't continue */
+@keyframes pop-blink {
+	from {
+		background-color: var(--filled);
+	}
+
+	to {
+		background-color: var(--filled-blink);
+	}
+}
+
+@keyframes pop {
+	from {
+		top: 0%;
+	}
+	to {
+		top: 100%;
+	}
+}
+
+.medic .build-progress {
+	position: absolute;
+	animation-name: build, blink;
+	animation-timing-function: linear;
+	animation-duration: var(--build-time), var(--blink-time);
+	animation-delay:
+		calc(0s - var(--extra-build) / 100 * var(--build-time)),
+		calc(var(--build-time) - var(--extra-build) / 100 * var(--build-time))
+	;
+	animation-iteration-count: 1, infinite;
+	animation-direction: normal, alternate;
+	animation-fill-mode: both;
+	top: 100%;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: var(--filled);
+}
+
+.no-calc-in-animation-delay .medic .build-progress {
+	animation-delay: 0s, var(--build-time);
+}
+
+.medic.popped .build-progress {
+	animation-name: pop, pop-blink;
+	animation-duration: var(--pop-time), var(--pop-blink-time);
+	animation-delay: 0s, 0s;
+	animation-iteration-count: 1, infinite;
+	animation-direction: normal, alternate;
+}
+
+.medic.dropped .build-progress {
+	display: none;
+}
+
+.medic.dropped .charge {
+	background: url(external/tf2/images/dead.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	background-color: #33302d;
+	font-size: 0;
+}
+
+button {
+	display: flex;
+	align-items: center;
+	border-radius: 5px;
+	min-height: 80px;
+	margin: 10px 0;
+	border: none;
+	background-color: #3c362f;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	transistion: transform 0.5s;
+	transform: scale(1);
+}
+
+button:hover {
+	background-color: #72675a;
+}
+
+button:active {
+	background-color: #4d453d;
+}
+
+@keyframes focus {
+	from {
+		transform: scale(1.5);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+button:focus {
+	outline: none;
+	animation: focus 0.3s;
+}
+
+button:hover {
+	animation-duration: 0s;
+}
+
+.medic .adjust-saw {
+	background-image: url(external/tf2/images/ubersaw.png);
+	background-size: 75%;
+}
+
+#add {
+	position: fixed;
+	width: 50px;
+	height: 100px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	display: block;
+	font-size: 3em;
+	text-align: center;
+	background: green;
+	color: white;
+	z-index: 1;
+	box-shadow: 0 0 4px black;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#add:hover {
+	background: #00cc00;
+}
+
+#add:active {
+	background: #003300;
+}
