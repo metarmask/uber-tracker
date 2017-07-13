@@ -201,13 +201,3 @@ document.querySelector("#add")
 .addEventListener("click", () => {
 	addMedic();
 });
-
-{
-	const div = document.createElement("div");
-	div.style.animationDelay = "calc(1s * 5)";
-	document.body.appendChild(div);
-	if(getComputedStyle(div)["animation-delay"] !== "5s") {
-		document.documentElement.classList.add("no-calc-in-animation-delay");
-	}
-	div.remove();
-}

@@ -27,4 +27,29 @@
 		<button class="adjust-saw" title="Add 25% ÜberCharge"></button>
 	</div>
 	<button id="add">+</button>
+	<script>
+// Check need for polyfills and add them to the page
+for(const [name, checkNeed] of [
+
+[
+	"calc-in-delay",
+	() => {
+		const element = document.createElement("div");
+		element.setAttribute("style", "animation-delay: calc(1s + 1s)");
+		document.body.appendChild(element);
+		const {animationDelay} = getComputedStyle(element);
+		element.remove();
+		return animationDelay !== "2s";
+	}
+]
+
+]) {
+	if(checkNeed()) {
+		const script = document.createElement("script");
+		script.src = "polyfills/" + name + ".js";
+		script.async = true;
+		document.head.appendChild(script);
+	}
+}
+	</script>
 </body>

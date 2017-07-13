@@ -134,10 +134,6 @@ body {
 	background: var(--filled);
 }
 
-.no-calc-in-animation-delay .medic .build-progress {
-	animation-delay: 0s, var(--build-time);
-}
-
 .medic.popped .build-progress {
 	animation-name: pop, pop-blink;
 	animation-duration: var(--pop-time), var(--pop-blink-time);
